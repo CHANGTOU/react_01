@@ -1,0 +1,60 @@
+
+.levelonedisplay {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border:1px solid green;
+    padding: 5px;
+    margin-right: 5px ;
+    font: 16px tahoma, arial;
+    float: left;
+    width: 350px ;
+}
+
+.leveloneheader {
+    display: flex;
+    width: 325px;
+    color: black;
+    background-color: lightsalmon ;
+    border:1px solid orange;
+    padding: 5px;
+    margin-right: 5px ;
+    font: 16px tahoma, arial;
+}
+
+.levelone {
+    display: flex;
+    width: 325px;
+    border:1px solid orange;
+    padding: 5px;
+    margin-right: 5px ;
+    font: 16px tahoma, arial;
+}
+
+.stockname {
+    color: black;
+    background-color: darkkhaki ;
+    margin-right: 5px ;
+    width: 250px;
+    text-align: left;
+}
+
+.stockvolume {
+    color: white;
+    background-color: darkblue ;
+    margin-right: 5px ;
+    width: 150px;
+    text-align: right;
+}
+
+.stockprice {
+    color: yellow;
+    background-color: rgb(13, 68, 29) ;
+    margin-right: 5px ;
+    float: left;
+    width: 100%;
+    text-align: right;
+}
+
+

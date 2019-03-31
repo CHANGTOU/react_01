@@ -1,0 +1,32 @@
+.stockportfolio {
+    display: flex;
+    flex-direction: column;
+    width: 450px;
+    border:1px solid lightgreen;
+    padding: 5px;
+    margin-right: 5px ;
+    font: 16px tahoma, arial;
+    height: 330px;
+}
+
+.portfolio_header {
+    display: flex;
+    width: 325px;
+    height: 35px;
+    color: black;
+    background-color: lightsalmon ;
+    border:1px solid orange;
+    padding: 5px;
+    margin-right: 5px ;
+    font: 16px tahoma, arial;
+}
+
+.position_display {
+    display: flex;
+    width: 425px;
+    border:1px solid lightgreen;
+    padding: 5px;
+    margin-right: 5px ;
+    font: 16px tahoma, arial;
+    height: 30px;
+}

@@ -30,3 +30,54 @@
     font: 16px tahoma, arial;
     height: 30px;
 }
+
+.position_line {
+    display: flex;
+    flex-direction: row;
+    width: 450px;
+    border:1px solid lightgreen;
+    padding: 5px;
+    margin-right: 5px ;
+    font: 16px tahoma, arial;
+    height: 30px;
+}
+
+.position_orderno {
+    color: black;
+    background-color: rgb(55, 71, 48) ;
+    margin-right: 5px ;
+    width: 250px;
+    text-align: left;
+}
+
+.position_symbol {
+    color: rgb(70, 155, 136);
+    background-color: rgb(51, 50, 35) ;
+    margin-right: 5px ;
+    width: 250px;
+    text-align: left;
+}
+
+.position_qty {
+    color: black;
+    background-color: darkkhaki ;
+    margin-right: 5px ;
+    width: 250px;
+    text-align: left;
+}
+
+.position_value {
+    color: black;
+    background-color: rgb(64, 71, 134) ;
+    margin-right: 5px ;
+    width: 250px;
+    text-align: left;
+}
+
+.position_diff {
+    color: black;
+    background-color: rgb(60, 85, 80) ;
+    margin-right: 5px ;
+    width: 250px;
+    text-align: left;
+}

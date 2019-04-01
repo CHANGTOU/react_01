@@ -19,7 +19,7 @@ class App extends Component {
     PositionMgr.add( '0004', 'MSFT', '1000',  '115.00' );
 
     this._portfolio = [ "MSFT", "AAPL", "INTC", "GOOG", "MSFT", "FACE", "LYFT", "SIRI", "AMZN", "TWTR", "MSFT" ];
-    setTimeout(() => this.on_timer(), 100);
+    setTimeout(() => this.on_timer(), 10);
   }
 
   render() {
@@ -39,7 +39,7 @@ class App extends Component {
     var sym = syms[ Math.floor( Math.random() * syms.length )] ;
     var m = StockFeed.get( sym ) ;
     StockFeed.update( m.sym, m.volume + 1, m.price + (Math.random() * 2 - 1) * (Math.random() * 0.99) ) ;
-    setTimeout(() => this.on_timer(), 100);
+    setTimeout(() => this.on_timer(), 10);
   }
 }
 

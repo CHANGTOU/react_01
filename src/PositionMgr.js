@@ -20,8 +20,10 @@ class Position {
         this.order_no = order_no_ ;
         this.sym = sym_ ;
         this.price = price_ ; // buy price
+        this._last = price_ ; // latest price update
         this.qty = qty_ ;
         this.value = price_ * qty_ ; // current price
+        this.diff = 0 ;
         this.cb = [] ;
         this._ndx = 0 ;
 
@@ -30,6 +32,7 @@ class Position {
     on_update( s ) {
         if (s.price !== this._last) {
             this.value = this.qty * s.price ;
+            this.diff = this.qty * (this._last - this.price) ;
             this._last = s.price ;
             this.trigger() ;
         }

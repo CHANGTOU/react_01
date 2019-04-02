@@ -45,6 +45,10 @@ class PositionDisplay extends Component {
         this.order_no = this.props.label ;
     }
 
+    on_sell() {
+        console.log( "selling stock " );
+      }
+    
     render() {
         var order_no = this.props.label ;
         var p = PositionMgr.position( order_no ) ;
@@ -56,6 +60,7 @@ class PositionDisplay extends Component {
                     <DataCell className="position_qty" data={p} field='qty' />
                     <DataCell className="position_value" data={p} field='value' />
                     <DataCell className="position_diff" data={p} field='diff' />
+                    <button onClick={ this.on_sell.bind(this) } >sell </button> 
                 </div>
             </div>            
         );

@@ -48,7 +48,7 @@ class Position {
 
     unregister( h ) {
         var ndx = this.cb.indexOf( h ) ;
-        if (ndx != -1) this.cb.splice( ndx, 1 ) ;
+        if (ndx !== -1) this.cb.splice( ndx, 1 ) ;
     }
 
     trigger() {
@@ -98,7 +98,7 @@ console.log( 'add.0:  order_no('+ order_no +')  sym('+ sym +')') ;
 
     unregister( h ) {
         var ndx = this.cb.indexOf( h ) ;
-        if (ndx != -1) this.cb.splice( ndx, 1 ) ;
+        if (ndx !== -1) this.cb.splice( ndx, 1 ) ;
     },
 
     position( order_no ) {

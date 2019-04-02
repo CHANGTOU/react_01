@@ -39,7 +39,7 @@ const StockFeed = {
         var o = this.get( ndx ) ;
 
         var index = o.cb.indexOf( h ) ;
-        if (index != -1) o.cb.splice( index, 1 ) ;
+        if (index !== -1) o.cb.splice( index, 1 ) ;
     },
 
     symbols() {

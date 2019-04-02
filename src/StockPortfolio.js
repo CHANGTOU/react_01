@@ -63,16 +63,42 @@ class PositionDisplay extends Component {
 }
 
 class StockPortfolio extends Component {
+    constructor( props ) {
+        super( props ) ;
+        this._ref = React.createRef() ;
+        this._last = 0.00 ;
+        this._hChange = PositionMgr.register( this.post_insert.bind(this), this.pre_erase.bind(this), this.on_change.bind(this) ) ;
+    }
+
+    pre_erase( position ) {
+    }
+
+    post_insert( position ) {
+    }
+
+    on_change( p ) {
+        var v = p.total.toFixed(4) ;
+        if (this._last !== v) {
+            this._ref.current.innerHTML = v ;
+            this._last = p ;
+        }
+    }
+
     render() {
       return (
         <div className="stockportfolio">
-            <div className="portfolio_header">portfolio </div>
+            <div className="portfolio_header"> 
+                <div className="portfolio_tag">portfolio </div>
+                <div className="portfolio_value" ref={this._ref}> 0.00 </div>
+            </div>
+            <div className="portfolio_list"> 
             {
                 PositionMgr.positions().map( function(order_no) { 
 console.log( 'order_no: ' + order_no ) ;
                     return <PositionDisplay label={order_no} /> ;
                 })
             }
+            </div>
         </div>
       ) ;
     }

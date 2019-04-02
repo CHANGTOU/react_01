@@ -23,6 +23,7 @@ class Position {
         this._last = price_ ; // latest price update
         this.qty = qty_ ;
         this.value = price_ * qty_ ; // current price
+        this.old_value = this.value ;
         this.diff = 0 ;
         this.cb = [] ;
         this._ndx = 0 ;
@@ -31,6 +32,7 @@ class Position {
     }
     on_update( s ) {
         if (s.price !== this._last) {
+            this.old_value = this.value ;
             this.value = this.qty * s.price ;
             this.diff = this.qty * (this._last - this.price) ;
             this._last = s.price ;
@@ -45,7 +47,8 @@ class Position {
     }
 
     unregister( h ) {
-        this.cb.splice( h, 1 ) ;
+        var ndx = this.cb.indexOf( h ) ;
+        if (ndx != -1) this.cb.splice( ndx, 1 ) ;
     }
 
     trigger() {
@@ -54,7 +57,9 @@ class Position {
 }
 
 const PositionMgr = {
+    total: 0.00,
     cb: [],
+    _hooks: [],
 
     add( order_no, sym, qty, buy_price ) {
 console.log( 'add.0:  order_no('+ order_no +')  sym('+ sym +')') ;
@@ -63,9 +68,16 @@ console.log( 'add.0:  order_no('+ order_no +')  sym('+ sym +')') ;
         }
         _positions[ order_no ] = new Position( order_no, sym, qty, buy_price ) ;
         _order_ids.push( order_no ) ;
+        this._hooks[ order_no ] = _positions[ order_no ].register( this.on_portfolio_update.bind( this ) ) ;
+        this.total += _positions[ order_no ].value ;
         this.post_insert( _positions[ order_no ] ) ;
-console.log( 'add.1:  count('+ _positions.length +')  # order_ids: '+ _order_ids.length ) ;
+        this.trigger() ;
         return _positions[ order_no ] ;
+    },
+
+    on_portfolio_update( p ) {
+        this.total = this.total - p.old_value + p.value ;
+        this.trigger() ;
     },
 
     remove( order_no ) {
@@ -74,18 +86,19 @@ console.log( 'add.1:  count('+ _positions.length +')  # order_ids: '+ _order_ids
         }
         this.pre_erase( _positions[ order_no ] ) ;
         _positions.remove_key( order_no ) ;
-        var index = _order_ids.indexOf( order_no );
-        if (index !== -1) _order_ids.splice(index, 1);
+        var ndx = _order_ids.indexOf( order_no );
+        if (ndx !== -1) _order_ids.splice( ndx, 1);
     },
 
-    register( insert_func, erase_func ) {
+    register( insert_func = null, erase_func = null, change_func = null ) {
         var h = _ndx++ ;
-        this.cb[ h ] = { insertCB: insert_func, eraseCB: erase_func } ;
+        this.cb[ h ] = { insertCB: insert_func, eraseCB: erase_func, changeCB: change_func } ;
         return h ;
     },
 
     unregister( h ) {
-        this.cb.splice( h, 1 ) ;
+        var ndx = this.cb.indexOf( h ) ;
+        if (ndx != -1) this.cb.splice( ndx, 1 ) ;
     },
 
     position( order_no ) {
@@ -102,6 +115,10 @@ console.log( 'add.1:  count('+ _positions.length +')  # order_ids: '+ _order_ids
 
     pre_erase( position ) {
         this.cb.forEach( function( cb ){ if (cb.eraseCB != null) cb.eraseCB( position ) ; }) ;
+    }, 
+
+    trigger() {
+        this.cb.forEach( function( cb ){ if (cb.changeCB != null) cb.changeCB( this ) ; }.bind( this ) ) ;
     }, 
 }
 

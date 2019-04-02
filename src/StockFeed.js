@@ -37,7 +37,9 @@ const StockFeed = {
 
     unregister( ndx, h ) {
         var o = this.get( ndx ) ;
-        o.cb.splice( h, 1 ) ;
+
+        var index = o.cb.indexOf( h ) ;
+        if (index != -1) o.cb.splice( index, 1 ) ;
     },
 
     symbols() {

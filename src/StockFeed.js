@@ -21,24 +21,23 @@ const StockFeed = {
         }
         if (o.price !== p) {
             flag = true ;
-            o.price = p ;
+            o.price = Math.max( p, 0.0001 ) ;
         }
         if (flag) {
-            o.cb.forEach( function(cb){ cb( o ) ; }) ;
+            o.cb.forEach( function(e){ e.func( o ) ; }) ;
         }
     },
 
-    register( ndx, func ) {
+    register( ndx, func_ ) {
         var o = this.get( ndx ) ;
         var h = _ndx++ ;
-        o.cb[ h ] = func ;
+        o.cb.push({ id: h, func: func_ }) ;
         return h ;
     },
 
     unregister( ndx, h ) {
         var o = this.get( ndx ) ;
-
-        var index = o.cb.indexOf( h ) ;
+        var index = o.cb.find( function(e) { return (e.id === h) ; }) ;
         if (index !== -1) o.cb.splice( index, 1 ) ;
     },
 
@@ -48,7 +47,7 @@ const StockFeed = {
 
     trigger( ndx ) {
         var o = this.get( ndx ) ;
-        o.cb.forEach( function(cb){ cb( o ) ; }) ;
+        o.cb.forEach( function(e){ e.func( o ) ; }) ;
     }, 
 }
 

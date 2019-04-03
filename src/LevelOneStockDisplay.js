@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import StockFeed from './StockFeed' ;
 import './LevelOneStockDisplay.css' ;
+import PositionMgr from './PositionMgr';
 
 class StockName extends Component {
     constructor( props ) {
@@ -88,7 +89,7 @@ class StockPrice extends Component {
  
 class LevelOneStockDisplay extends Component {
   on_buy() {
-    console.log( "buying stock " );
+    PositionMgr.buy( this.props.label, 100 ) ;
   }
   render() {
     return (

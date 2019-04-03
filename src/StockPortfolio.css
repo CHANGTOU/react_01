@@ -133,3 +133,46 @@ body::-webkit-scrollbar-thumb {
     width: 300px;
     text-align: right;
 }
+
+.portfolio_footer {
+    width: 87%;
+    height: 25px;
+    color: black;
+    background-color: lightsalmon ;
+    flex-direction: row;
+    border:1px solid orange;
+    padding: 5px;
+    margin-right: 5px ;
+    font: 16px tahoma, arial;
+}
+
+.footer_tag {
+    display: flex;
+    width: 225px;
+    height: 20px ;
+    color: black;
+    background-color: lightsalmon ;
+    border:1px solid orange;
+    padding: 5px;
+    margin-right: 5px ;
+    font: 16px tahoma, arial;
+}
+
+.portfolio_cash {
+    float: right;
+    width: 100px ;
+    color: rgb(255, 255, 255);
+    background-color: rgb(64, 71, 134) ;
+    margin-right: 5px ;
+    text-align: right;
+}
+
+.clearfix {
+    overflow: auto;
+}
+
+.clearfix::after {
+    content: "";
+    clear: both;
+    display: table;
+}

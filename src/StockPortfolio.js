@@ -5,7 +5,7 @@ import './StockPortfolio.css' ;
 class DataCell extends Component {
     constructor( props ) {
         super( props ) ;
-        this._ref = React.createRef() ;
+        this._ref = null ;
         this._last = '' ;
         this._hChange = PositionMgr.position( this.props.data.order_no ).register( this.on_change.bind(this) ) ;
     }
@@ -21,15 +21,27 @@ class DataCell extends Component {
         }
     }
 
+    componentWillUnmount() {
+        var o = PositionMgr.find( this.props.data.order_no ) ;
+        if (o !== null) {
+            o.unregister( this._hChange ) ;
+            this._hChange = -1 ;
+        }
+        this._ref = null ;
+    }
+    
     on_change( p ) {
         var v = this.get_value() ;
-        if (this._last !== v) {
+        if ((this._last !== v) && (this._ref != null)) {
             this._ref.current.innerHTML = v ;
             this._last = p ;
         }
     }
 
     render() {
+        if (this._ref == null) {
+            this._ref = React.createRef() ;
+        }
         return (
             <div className={this.props.className} ref={this._ref}> 
             {this.get_value()}
@@ -46,9 +58,9 @@ class PositionDisplay extends Component {
     }
 
     on_sell() {
-        console.log( "selling stock " );
-      }
-    
+        PositionMgr.sell( this.props.label ) ;
+    }
+
     render() {
         var order_no = this.props.label ;
         var p = PositionMgr.position( order_no ) ;
@@ -60,7 +72,7 @@ class PositionDisplay extends Component {
                     <DataCell className="position_qty" data={p} field='qty' />
                     <DataCell className="position_value" data={p} field='value' />
                     <DataCell className="position_diff" data={p} field='diff' />
-                    <button onClick={ this.on_sell.bind(this) } >sell </button> 
+                    <button onClick={ this.on_sell.bind(this) }>sell </button> 
                 </div>
             </div>            
         );
@@ -71,22 +83,23 @@ class StockPortfolio extends Component {
     constructor( props ) {
         super( props ) ;
         this._ref = React.createRef() ;
-        this._last = 0.00 ;
+        this._cashRef = React.createRef() ;
         this._hChange = PositionMgr.register( this.post_insert.bind(this), this.pre_erase.bind(this), this.on_change.bind(this) ) ;
     }
 
     pre_erase( position ) {
+        this.setState({ date: new Date() });
     }
 
     post_insert( position ) {
+        this.setState({ date: new Date() });
     }
 
     on_change( p ) {
         var v = p.total.toFixed(4) ;
-        if (this._last !== v) {
-            this._ref.current.innerHTML = v ;
-            this._last = p ;
-        }
+        this._ref.current.innerHTML = v ;
+        var c = p.cash.toFixed(4) ;
+        this._cashRef.current.innerHTML = c ;
     }
 
     render() {
@@ -99,10 +112,12 @@ class StockPortfolio extends Component {
             <div className="portfolio_list"> 
             {
                 PositionMgr.positions().map( function(order_no) { 
-console.log( 'order_no: ' + order_no ) ;
                     return <PositionDisplay label={order_no} /> ;
                 })
             }
+            </div>
+            <div className="portfolio_footer"> 
+                <div className="portfolio_cash" ref={this._cashRef}> 0.00 </div>
             </div>
         </div>
       ) ;
